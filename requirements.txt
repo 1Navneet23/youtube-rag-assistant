@@ -1,0 +1,30 @@
+# Web Framework
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+python-multipart==0.0.6
+
+# LangChain & AI
+langchain==0.1.0
+langchain-groq==0.0.1
+langchain-community==0.0.13
+langchain-experimental==0.0.47
+
+# LLM Providers
+groq==0.4.1
+
+# Vector Store & Embeddings
+faiss-cpu==1.7.4
+sentence-transformers==2.2.2
+
+# YouTube
+youtube-transcript-api==0.6.1
+
+# Database
+sqlalchemy==2.0.23
+
+# Data Processing
+pydantic==2.5.0
+python-dotenv==1.0.0
+
+# Utilities
+requests==2.31.0

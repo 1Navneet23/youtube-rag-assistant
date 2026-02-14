@@ -1,0 +1,99 @@
+# Environment Variables (CRITICAL - NEVER COMMIT)
+.env
+.env.local
+.env.*.local
+*.env
+ 
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment
+you-ai/
+
+
+# Database Files
+*.db
+*.sqlite
+*.sqlite3
+chat_memory.db
+
+# Vector Stores (Large files - don't commit)
+vectorstores/
+*.index
+*.faiss
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+*.log
+logs/
+
+# Temporary Files
+*.tmp
+*.temp
+temp/
+tmp/
+
+# OS Files
+Thumbs.db
+.DS_Store
+
+# Chrome Extension (if building)
+extension/*.crx
+extension/*.pem
+
+# Node modules (if used)
+node_modules/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+*.ipynb
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# API Keys and Secrets (DOUBLE CHECK)
+*secret*
+*api_key*
+*token*
+credentials.json
+
+# Model Files (Can be large)
+models/
+*.bin
+*.pt
+*.pth
+*.ckpt
+
+# Data Files
+data/
+datasets/

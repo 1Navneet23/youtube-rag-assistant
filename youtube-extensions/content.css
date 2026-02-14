@@ -1,0 +1,604 @@
+/*
+==========================
+CONTENT.CSS - STYLING GUIDE
+==========================
+
+This file styles all the UI elements we inject into YouTube pages.
+
+CSS CONCEPTS COVERED:
+- Flexbox layout
+- Positioning (fixed, absolute, relative)
+- Z-index (layering)
+- Transitions & animations
+- Responsive design
+- Custom scrollbars
+*/
+
+/* ==========================
+   CHAT BUTTON
+   ========================== */
+
+/*
+The button that appears on YouTube pages
+We style it to match YouTube's design language
+*/
+.yt-ai-chat-button {
+    /* Layout */
+    display: inline-flex;
+    align-items: center;          /* Vertical centering */
+    gap: 8px;                     /* Space between icon and text */
+    
+    /* Sizing */
+    padding: 10px 16px;
+    margin: 12px 0;
+    
+    /* Colors */
+    background: #3ea6ff;          /* YouTube's blue */
+    color: white;
+    
+    /* Border */
+    border: none;
+    border-radius: 18px;          /* Rounded corners */
+    
+    /* Text */
+    font-family: "Roboto", "Arial", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    
+    /* Interaction */
+    cursor: pointer;              /* Show pointer on hover */
+    transition: all 0.2s ease;    /* Smooth animation on hover */
+    
+    /* Remove default button styles */
+    outline: none;
+}
+
+/* Hover effect */
+.yt-ai-chat-button:hover {
+    background: #3398e8;          /* Slightly darker blue */
+    transform: translateY(-1px);  /* Lift up slightly */
+    box-shadow: 0 2px 8px rgba(62, 166, 255, 0.3); /* Subtle shadow */
+}
+
+/* Active (clicking) effect */
+.yt-ai-chat-button:active {
+    transform: translateY(0);     /* Reset position */
+}
+
+/* Icon inside button */
+.yt-ai-chat-button svg {
+    flex-shrink: 0;               /* Prevent icon from shrinking */
+}
+
+
+/* ==========================
+   CHAT CONTAINER
+   ========================== */
+
+/*
+Main chat window
+Fixed position: stays in same spot even when scrolling
+*/
+.yt-ai-chat-container {
+    /* Positioning */
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    
+    /* Size */
+    width: 400px;
+    height: 600px;
+    max-height: 80vh;             /* Don't exceed 80% of viewport height */
+    
+    /* Layout */
+    display: flex;
+    flex-direction: column;       /* Stack children vertically */
+    
+    /* Colors */
+    background: white;
+    
+    /* Border & Shadow */
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+    
+    /* Z-index: Layering order (higher = on top) */
+    z-index: 9999;                /* Above YouTube's content */
+    
+    /* Initially hidden */
+    opacity: 0;
+    transform: translateY(20px);  /* Start slightly lower */
+    pointer-events: none;         /* Don't block clicks when hidden */
+    
+    /* Animation */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth easing */
+}
+
+/* When chat is visible */
+.yt-ai-chat-container.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+/* Responsive: Smaller screens */
+@media (max-width: 768px) {
+    .yt-ai-chat-container {
+        width: calc(100vw - 40px);  /* Full width minus margins */
+        height: calc(100vh - 40px); /* Full height minus margins */
+        bottom: 20px;
+        right: 20px;
+        left: 20px;
+    }
+}
+
+
+/* ==========================
+   HEADER
+   ========================== */
+
+.yt-ai-chat-header {
+    /* Layout */
+    display: flex;
+    justify-content: space-between; /* Space between title and close button */
+    align-items: center;
+    
+    /* Spacing */
+    padding: 16px 20px;
+    
+    /* Colors */
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    
+    /* Border */
+    border-radius: 12px 12px 0 0; /* Rounded only top corners */
+    
+    /* Prevent text selection */
+    user-select: none;
+}
+
+.yt-ai-chat-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.yt-ai-close-btn {
+    /* Layout */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* Size */
+    width: 32px;
+    height: 32px;
+    
+    /* Colors */
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    
+    /* Border */
+    border: none;
+    border-radius: 50%;           /* Perfect circle */
+    
+    /* Text */
+    font-size: 24px;
+    line-height: 1;
+    
+    /* Interaction */
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.yt-ai-close-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(90deg);     /* Spin on hover */
+}
+
+
+/* ==========================
+   STATUS BAR
+   ========================== */
+
+.yt-ai-status-bar {
+    /* Layout */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    
+    /* Spacing */
+    padding: 8px 20px;
+    
+    /* Colors */
+    background: #f8f9fa;
+    
+    /* Border */
+    border-bottom: 1px solid #e0e0e0;
+    
+    /* Text */
+    font-size: 13px;
+    color: #5f6368;
+}
+
+/* Status indicator dot */
+.status-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    
+    /* Default: gray */
+    background: #9e9e9e;
+    
+    /* Animation */
+    transition: background 0.3s;
+}
+
+/* Different states */
+.status-indicator.ready {
+    background: #4caf50;          /* Green */
+}
+
+.status-indicator.processing {
+    background: #ff9800;          /* Orange */
+    animation: pulse 2s infinite; /* Pulsing animation */
+}
+
+.status-indicator.thinking {
+    background: #2196f3;          /* Blue */
+    animation: pulse 1s infinite;
+}
+
+.status-indicator.error {
+    background: #f44336;          /* Red */
+}
+
+/* Pulse animation for processing/thinking states */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+
+/* ==========================
+   MESSAGES AREA
+   ========================== */
+
+.yt-ai-messages {
+    /* Layout */
+    flex: 1;                      /* Take up remaining space */
+    
+    /* Spacing */
+    padding: 20px;
+    
+    /* Scrolling */
+    overflow-y: auto;             /* Scroll when content overflows */
+    overflow-x: hidden;
+    
+    /* Colors */
+    background: #f8f9fa;
+}
+
+/* Custom scrollbar (Webkit browsers) */
+.yt-ai-messages::-webkit-scrollbar {
+    width: 8px;
+}
+
+.yt-ai-messages::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.yt-ai-messages::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.yt-ai-messages::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+
+/* ==========================
+   WELCOME MESSAGE
+   ========================== */
+
+.yt-ai-welcome {
+    /* Colors */
+    background: white;
+    color: #333;
+    
+    /* Spacing */
+    padding: 20px;
+    margin-bottom: 16px;
+    
+    /* Border */
+    border-radius: 8px;
+    border: 2px dashed #e0e0e0;
+    
+    /* Text */
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.yt-ai-welcome ul {
+    margin: 12px 0 0 0;
+    padding-left: 20px;
+}
+
+.yt-ai-welcome li {
+    margin: 8px 0;
+    color: #666;
+}
+
+
+/* ==========================
+   INDIVIDUAL MESSAGES
+   ========================== */
+
+.yt-ai-message {
+    /* Layout */
+    display: flex;
+    gap: 12px;
+    
+    /* Spacing */
+    margin-bottom: 16px;
+    
+    /* Animation */
+    animation: slideIn 0.3s ease;
+}
+
+/* Slide in animation */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Message icon */
+.message-icon {
+    /* Size */
+    width: 32px;
+    height: 32px;
+    
+    /* Layout */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* Prevent shrinking */
+    flex-shrink: 0;
+    
+    /* Colors */
+    background: white;
+    
+    /* Border */
+    border-radius: 50%;
+    
+    /* Text */
+    font-size: 18px;
+}
+
+/* Message content */
+.message-content {
+    /* Layout */
+    flex: 1;
+    
+    /* Spacing */
+    padding: 12px 16px;
+    
+    /* Colors */
+    background: white;
+    color: #333;
+    
+    /* Border */
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    
+    /* Text */
+    font-size: 14px;
+    line-height: 1.6;
+    
+    /* Handle long words */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* User messages: different color */
+.yt-ai-message-user .message-content {
+    background: #e3f2fd;          /* Light blue */
+}
+
+/* Error messages: red tint */
+.yt-ai-message-error .message-content {
+    background: #ffebee;          /* Light red */
+    color: #c62828;               /* Dark red text */
+    border-left: 3px solid #f44336;
+}
+
+/* System messages: yellow tint */
+.yt-ai-message-system .message-content {
+    background: #fff8e1;          /* Light yellow */
+    color: #f57f17;               /* Dark yellow text */
+    border-left: 3px solid #ffc107;
+}
+
+
+/* ==========================
+   INPUT AREA
+   ========================== */
+
+.yt-ai-input-area {
+    /* Layout */
+    display: flex;
+    gap: 8px;
+    
+    /* Spacing */
+    padding: 16px 20px;
+    
+    /* Colors */
+    background: white;
+    
+    /* Border */
+    border-top: 1px solid #e0e0e0;
+    border-radius: 0 0 12px 12px; /* Rounded bottom corners */
+}
+
+/* Input field */
+#yt-ai-input {
+    /* Layout */
+    flex: 1;                      /* Take up available space */
+    
+    /* Spacing */
+    padding: 10px 14px;
+    
+    /* Colors */
+    background: #f8f9fa;
+    color: #333;
+    
+    /* Border */
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+    
+    /* Text */
+    font-size: 14px;
+    font-family: inherit;
+    
+    /* Remove default styles */
+    outline: none;
+    
+    /* Animation */
+    transition: all 0.2s;
+}
+
+#yt-ai-input:focus {
+    background: white;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+#yt-ai-input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Send button */
+.yt-ai-send-btn {
+    /* Spacing */
+    padding: 10px 20px;
+    
+    /* Colors */
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    
+    /* Border */
+    border: none;
+    border-radius: 20px;
+    
+    /* Text */
+    font-size: 14px;
+    font-weight: 600;
+    
+    /* Interaction */
+    cursor: pointer;
+    transition: all 0.2s;
+    
+    /* Prevent shrinking */
+    flex-shrink: 0;
+}
+
+.yt-ai-send-btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.yt-ai-send-btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.yt-ai-send-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+
+/*
+==========================
+KEY CSS CONCEPTS EXPLAINED
+==========================
+
+1. FLEXBOX:
+   - Modern layout system
+   - display: flex enables it
+   - flex-direction: row (horizontal) or column (vertical)
+   - justify-content: alignment along main axis
+   - align-items: alignment along cross axis
+   - flex: 1 means "take up remaining space"
+
+2. POSITIONING:
+   - static: Default, follows document flow
+   - relative: Positioned relative to normal position
+   - absolute: Positioned relative to nearest positioned ancestor
+   - fixed: Positioned relative to viewport (stays when scrolling)
+
+3. Z-INDEX:
+   - Controls stacking order (which element is on top)
+   - Higher number = more in front
+   - Only works on positioned elements (not static)
+
+4. TRANSITIONS:
+   - Smooth animation between states
+   - transition: property duration timing-function
+   - Example: transition: all 0.3s ease
+
+5. ANIMATIONS:
+   - @keyframes defines the animation
+   - animation property applies it
+   - Can loop infinitely or run once
+
+6. RESPONSIVE DESIGN:
+   - @media queries for different screen sizes
+   - Use relative units (%, vh, vw) not just px
+   - Mobile-first: start with mobile, add desktop styles
+
+7. CSS VARIABLES (not used here, but useful):
+   - :root { --primary-color: #667eea; }
+   - color: var(--primary-color);
+
+8. PSEUDO-CLASSES:
+   - :hover - when mouse over element
+   - :active - when clicking element
+   - :focus - when element has keyboard focus
+   - :disabled - when element is disabled
+   - :not() - selects elements that don't match
+
+==========================
+DEBUGGING CSS
+==========================
+
+1. Open Chrome DevTools (F12)
+2. Click "Elements" tab
+3. Click "Styles" panel
+4. You can:
+   - See which styles apply
+   - Toggle styles on/off (checkbox)
+   - Edit values live
+   - See computed values
+   - Inspect animations
+
+Common Issues:
+- Element not visible?
+  → Check display, opacity, z-index
+- Layout broken?
+  → Check flexbox/grid properties
+  → Inspect with DevTools "Layout" panel
+- Styles not applying?
+  → Check selector specificity
+  → Check if later rule overrides it
+*/
